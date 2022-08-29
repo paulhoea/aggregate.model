@@ -81,3 +81,18 @@ b <- run_model(
   present = FALSE
 )
 
+
+c <- run_model(
+  specification = spec,
+  dictionary = NULL,
+  inputdata_directory = here::here("input_data/"),
+  filter_list = filter_list,
+  download = FALSE,
+  save_to_disk = NULL,
+  present = FALSE,
+  ardl_or_ecm = "ecm"
+)
+
+
+b$module_order_eurostatvars
+
