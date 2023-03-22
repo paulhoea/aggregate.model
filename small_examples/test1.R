@@ -8,14 +8,14 @@ spec <- tibble(
     "n"
   ),
   dependent = c(
-    "JL",
+    "StatDiscrep",
     "TOTS",
-    "B"
+    "Import"
   ),
   independent = c(
-    "TOTS - CP - CO - J - A",
-    "YF + B",
-    "CP + J"
+    "TOTS - FinConsExpHH - FinConsExpGov - GCapitalForm - Export",
+    "GValueAdd + Import",
+    "FinConsExpHH + GCapitalForm"
   )
 )
 # test specification
