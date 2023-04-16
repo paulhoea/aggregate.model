@@ -71,7 +71,7 @@ model_result_4_new <- run_model(
   inputdata_directory = "data-raw/csv/",
   #save_to_disk = "data-raw/csv/input.csv",
   trend = TRUE,
-  max.lag = 4,
+  #max.lag = 4,
   saturation.tpval = 0.001
 )
 
