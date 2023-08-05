@@ -80,9 +80,10 @@ model_result_0_new <- run_model(
   specification = spec,
   filter_list = filter_list,
   download = FALSE,
-  inputdata_directory = "data-raw/csv/",
+  #inputdata_directory = "data-raw/csv/",
+  inputdata_directory = sample_input,
   trend = TRUE,
-  max.lag = 0
+  max.ar = 0
 )
 
 

@@ -54,7 +54,7 @@ tibble(index = 1:n,
 
 inital_plot_df %>%
   ggplot(aes(y = value, x = index, color = type, group = paste0(type,var))) +
-  geom_vline(aes(xintercept = n), size = 0.5, linetype = 2)+
+  geom_vline(aes(xintercept = n), linewidth = 0.5, linetype = 2)+
   geom_line() +
 
   facet_wrap(~var, scales = "free") +
