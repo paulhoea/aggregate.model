@@ -2,7 +2,6 @@
 library(shiny)
 library(DT)
 
-
 # Define UI for app
 ui <- fluidPage(
   titlePanel("The Aggregate Model"),
@@ -11,24 +10,32 @@ ui <- fluidPage(
 
   fluidRow(
     column(
-      width = 3,
+      width = 2,
       tabsetPanel(
-        tabPanel("Settings",
+        tabPanel("Model Settings",
                  numericInput("max_ar", "Maximum Number of Autoregressive Lags:", min = 0, max = 12, step = 1, value = 4),
                  numericInput("max_dl", "Maximum Number of Distributed Lags:", min = 0, max = 12, step = 1, value = 2),
                  checkboxInput("gets_selection", "Run GETS Selection?", value = TRUE),
                  numericInput("gets_pvalue", "GETS P-value:", min = 0.01, max = 0.5, value = 0.05),
                  checkboxInput("indicator_saturation", "Run Indicator Saturation?", value = TRUE),
                  numericInput("ind_sat_pval", "Indicator Saturation P-value:", min = 0.01, max = 0.5, value = 0.05),
-                 textInput("save_file", "Save Processed Input Data (must be file ending with RDS, rds, Rds, csv, xls, xlsx):", value = "inputdata/processed_inputdata.csv"),
-                 actionButton("run_button", "Run Model")
+                 textInput("save_file", "Save Processed Input Data (must be file ending with RDS, rds, Rds, csv, xls, xlsx):", value = "inputdata/processed_inputdata.csv")#,
+                 #actionButton("run_button", "Run Model")
+        ),
+        tabPanel("Forecast Settings",
+                 radioButtons("forecast_option", "Select Forecast Option:",
+                              choices = c("Option 1", "Option 2"),
+                              selected = "Option 1")#,
+                 #actionButton("forecast_button", "Forecast Model")
         )
-      )
+      ),
+      actionButton("run_button", "Run Model"),
+      actionButton("forecast_button", "Forecast Model")
     ),
     column(
-      width = 5,
+      width = 4,
       tabsetPanel(
-                tabPanel("Specification",
+        tabPanel("Specification",
                  fileInput("spec", "Upload Specification (CSV)", accept = ".csv"),
                  DT::dataTableOutput("specification_table")
         ),
@@ -43,12 +50,19 @@ ui <- fluidPage(
       )
     ),
     column(
-      width = 4,
-      tabsetPanel(
-        tabPanel("Model Output",
-                 verbatimTextOutput("model_output")
-        )
-      )
+      width = 5,
+      h2("Model Output"),
+      verbatimTextOutput("model_output"),
+      h2("Model Forecast"),
+      plotOutput("forecast_output")
+      #tabsetPanel(
+        # tabPanel("Model Output",
+        #          verbatimTextOutput("model_output")
+        # ),
+        # tabPanel("Model Forecast",
+        #          verbatimTextOutput("forecast_output")
+        # )
+      #)
     )
   )
 )
@@ -159,11 +173,10 @@ server <- function(input, output, session) {
 
   # Function to run the model
   run_model_shiny <- function() {
-    browser()
     model_output <- aggregate.model::run_model(specification = rv$specification,
                                                dictionary = rv$dictionary,
-                                               inputdata_directory = if(is.null(rv$inputdirectory)){NULL}else{dirname(input$data$datapath)}, # inputdata
-                                               primary_source = if(is.null(rv$inputdirectory)){"download"}else{"local"},
+                                               inputdata_directory = if (is.null(rv$inputdirectory)) { NULL } else { dirname(input$data$datapath) }, # inputdata
+                                               primary_source = if (is.null(rv$inputdirectory)) { "download" } else { "local" },
                                                save_to_disk = rv$save_file,
                                                present = FALSE,
                                                quiet = TRUE,
@@ -176,15 +189,36 @@ server <- function(input, output, session) {
                                                gets_selection = rv$gets_select,
                                                selection.tpval = rv$gets_pval)
 
-    # Print or process the model output as needed
-    print(model_output)
+    # # Print or process the model output as needed
+    # print(model_output)
+    return(model_output)
   }
 
-  # Run model when button is clicked
+  # Function to forecast the model
+  forecast_model_shiny <- function(){
+    forecast_model(rv$model_output)
+    # Add code to handle forecasting
+  }
+
+  # Run model when "Run Model" button is clicked
   observeEvent(input$run_button, {
-    run_model_shiny()
+    rv$model_output <- run_model_shiny()
   })
 
+  # Forecast model when "Forecast Model" button is clicked
+  observeEvent(input$forecast_button, {
+    rv$forecast_output <- plot(forecast_model_shiny())
+  })
+
+  # Display the model output
+  output$model_output <- renderPrint({
+    rv$model_output
+  })
+
+  # Display the forecast output
+  output$forecast_output <- renderPlot({
+    rv$forecast_output
+  })
 }
 
 
