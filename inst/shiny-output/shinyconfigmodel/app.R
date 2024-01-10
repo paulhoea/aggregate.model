@@ -56,12 +56,12 @@ ui <- fluidPage(
       h2("Model Forecast"),
       plotOutput("forecast_output")
       #tabsetPanel(
-        # tabPanel("Model Output",
-        #          verbatimTextOutput("model_output")
-        # ),
-        # tabPanel("Model Forecast",
-        #          verbatimTextOutput("forecast_output")
-        # )
+      # tabPanel("Model Output",
+      #          verbatimTextOutput("model_output")
+      # ),
+      # tabPanel("Model Forecast",
+      #          verbatimTextOutput("forecast_output")
+      # )
       #)
     )
   )
@@ -70,17 +70,61 @@ ui <- fluidPage(
 # Default dictionary
 default_dict <- aggregate.model::dict
 
+default_dict %>%
+  dplyr::bind_rows(dplyr::tibble(
+    model_varname = "IndProd", # this is free to choose but must be unique
+    full_name = "An index of Industrial Production",
+    database  = "eurostat",
+    variable_code = "PROD", # in this case use the bt_indicator information here
+    dataset_id = "sts_inpr_q",
+    var_col = "indic_bt", # here we specify what the column with the variables is called
+    freq = "q", # for quarterly data, 'm' would be monthly
+    geo = "AT",
+    unit = "I15", # for index of 2015 = 100
+    s_adj = "NSA", # not seasonally adjusted
+    nace_r2 = "B-D")) -> default_dict
+
 # Default specification
+# default_spec <- dplyr::tibble(
+#   type = c("d", "d", "n", "n"),
+#   dependent = c("StatDiscrep", "TOTS", "Import", "EmiCO2Combustion"),
+#   independent = c("TOTS - FinConsExpHH - FinConsExpGov - GCapitalForm - Export",
+#                   "GValueAdd + Import",
+#                   "FinConsExpHH + GCapitalForm",
+#                   "HDD + HICP_Energy + GValueAdd")
+# )
+
+
 default_spec <- dplyr::tibble(
-  type = c("d", "d", "n", "n"),
-  dependent = c("StatDiscrep", "TOTS", "Import", "EmiCO2Combustion"),
-  independent = c("TOTS - FinConsExpHH - FinConsExpGov - GCapitalForm - Export",
-                  "GValueAdd + Import",
-                  "FinConsExpHH + GCapitalForm",
-                  "HDD + HICP_Energy + GValueAdd")
+  type = c(
+    "d",
+    "n",
+    "n",
+    "n",
+    "d",
+    "n"
+  ),
+  dependent = c(
+    "TOTS",
+    "Import",
+    "EmiCO2Combustion",
+    "EmiCO2Industry",
+    "EmiGHGTotal",
+    "IndProd"
+  ),
+  independent = c(
+    "GValueAdd + Import",
+    "FinConsExpHH + GCapitalForm",
+    "HDD + HICP_Gas + HICP_Electricity + GValueAdd",
+    "HICP_Gas + HICP_Electricity + GValueAddIndus",
+    "EmiCO2Combustion + EmiCO2Industry + EmiCH4Livestock + EmiN2OTotal",
+    "HICP_Gas + HICP_Electricity + Export + TOTS"
+  )
 )
 
 default_input <- aggregate.model::sample_input
+
+
 
 # Define server logic
 server <- function(input, output, session) {
@@ -196,7 +240,7 @@ server <- function(input, output, session) {
 
   # Function to forecast the model
   forecast_model_shiny <- function(){
-    forecast_model(rv$model_output)
+    aggregate.model::forecast_model(rv$model_output)
     # Add code to handle forecasting
   }
 
