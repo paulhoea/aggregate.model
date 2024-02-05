@@ -4,9 +4,38 @@ library(DT)
 
 # Define UI for app
 ui <- fluidPage(
-  titlePanel("The Aggregate Model"),
+  titlePanel("Aggregate Model Configuration App"),
 
-  HTML("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"),
+  #HTML("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"),
+  HTML('    <section>
+        <p>This powerful tool is designed to implement and operationalize the Aggregate Model, a collaborative effort by Jonas Kurle, Andrew Martinez, Felix Pretis, and Moritz Schwarz. This model is an adaptation of the renowned Norwegian Aggregate Model, originally developed by Gunnar Bardsen and Ragnar Nymoen.</p>
+        <p>The "Aggregate Model" is a cutting-edge, open-source econometric model builder. Its primary objective is to deliver robust empirical forecasts of sectoral carbon emissions. The model leverages advanced econometric tools from the robust time series modeling literature, incorporating techniques such as diagnostic testing, indicator saturation, and automatic forecast evaluation. For more information see </p>
+    </section>
+
+    <section>
+        <h2>Key Features:</h2>
+        <ul>
+            <li><strong>Robust Forecasting:</strong> The Aggregate Model excels in providing reliable and robust forecasts for sectoral carbon emissions.</li>
+            <li><strong>Econometric Tools:</strong> Leveraging state-of-the-art econometric tools ensures accurate and data-driven predictions.</li>
+            <li><strong>Open-Source:</strong> As an open-source initiative, the Aggregate Model encourages collaboration and transparency in the modeling community.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>How to Use this app:</h2>
+        <ol>
+            <li><strong>Configure the Model Parameters:</strong> Easily customize model parameters to tailor predictions to your specific needs.</li>
+            <li><strong>Explore Diagnostic Tests:</strong> Dive into diagnostic testing capabilities to ensure the robustness of your forecasts.</li>
+            <li><strong>Evaluate Forecasts Automatically:</strong> The Aggregate Model automates forecast evaluation, streamlining the process for enhanced efficiency.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>Get Started:</h2>
+        <p>Begin your journey with the Aggregate Model Package today and unlock the potential for precise and reliable sectoral carbon emissions forecasting. Visit <a href="https://moritzschwarz.org/aggregate.model/" target="_blank">the Aggregate Model Package Website</a> for more information.</p>
+        <p><em>Disclaimer: The Aggregate Model Package is a collaborative effort and is continuously evolving. User feedback and contributions are welcomed to enhance its capabilities.</em></p>
+    </section>'),
+
 
   fluidRow(
     column(
