@@ -66,9 +66,9 @@ specification %>%
 
 model <- run_model(specification = specification,
                    dictionary = new_dict,
-                   inputdata_directory = "data-raw/test_for_now_update/",
+                   inputdata_directory = "small_examples/code for current paper draft/",
                    primary_source = "local",
-                   save_to_disk = "data-raw/test_for_now/EAERE_data_updated.xlsx",
+                   save_to_disk = "small_examples/code for current paper draft/EAERE_data_updated.xlsx",
 
                    present = FALSE,
                    quiet = FALSE,
