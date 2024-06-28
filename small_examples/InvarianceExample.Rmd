@@ -410,7 +410,22 @@ Given all this, my thinking goes into the following direction:
 - without any outliers identified in Step 1
 - but with all outliers identified in Step 4
 
+# Further Notes
 
+-	I need a shock in the marginal equation -> if I don’t have that then I can’t do the test
+Castle Hendry Martinez
+o	Step Shifts give me the most power
+o	Impulses still work
+-	If I find nothing, I cannot perform the test
+-	Finding more instabilities in the marginal equation (so finding more impulses or steps) increases the power
+
+-	There does not seem to be a reason NOT to run IIS and SIS together in the marginal model – we can do those together
+
+-	For policy, we are much more interested in invariance – rather than in outliers which we would need to focus on forecasting
+ so this means we should probably not run isat on the conditional model before we tests 
+
+
+Dealing with lags:
 
 $$y_t = \beta x_t + \beta x_{t-1} + \varepsilon$$
 
